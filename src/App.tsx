@@ -4,7 +4,7 @@ import Header from './component/Header'
 
 function App() {
   const [headerMenu, headerMenuSet] = useState(0)
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
       headerMenuSet(newValue);
   };
   return (

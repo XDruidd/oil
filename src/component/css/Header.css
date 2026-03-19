@@ -56,9 +56,8 @@ header .tab{
     padding: 0 !important;
 }
 header .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected{
-    color: #FFFF !important
+    color: #FFFF !important;
 };
-header .tab &.hover { color: 'inherit' };
 .ouiArrowHeader{
     width: 12px;
     height: 12px;
