@@ -1,0 +1,65 @@
+header{
+    width: 100%;
+    height: 151px;
+    background: linear-gradient(to right, 
+        #808AE7 0%,   
+        #3D48AA 40%,   
+        #000000 70%,
+        #222A6E 100% 
+    );
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+header input{
+    background: rgba(121, 121, 121, 0.2);;
+    border: 1px solid #FFFF;
+    border-radius: 125.84px;
+    width: 100%;
+    height: 41px;
+    padding: 0 50px;
+    color: white;
+}
+header input:focus {
+    outline: none;
+}
+header .serch{
+    display: flex;
+    align-items: center;
+}
+header .search-button{
+    position: absolute;
+    left: 45px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+header input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    align-items: center;
+}
+header .logoTipe{
+    text-transform: none;
+    color: #fff;
+    font-weight: 700;
+}
+header .tab{
+    color: #FFFFFF80;
+    font-size: 16px;
+    height: 21px;
+    display: flex;
+    min-width: 0 !important;
+    padding: 0 !important;
+}
+header .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected{
+    color: #FFFF !important
+};
+header .tab &.hover { color: 'inherit' };
+.ouiArrowHeader{
+    width: 12px;
+    height: 12px;
+}
