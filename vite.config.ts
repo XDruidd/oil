@@ -28,7 +28,7 @@ const manifest : Partial<ManifestOptions> | false = {
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/pwa-experiment/',
+  base: '/oil/',
   plugins: [
     react(), 
     VitePWA(
