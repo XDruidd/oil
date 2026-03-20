@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import Footer from './component/Footer'
 import Header from './component/Header'
 import TabPanel from './component/TabPanel';
-import { Box, Drawer } from '@mui/material';
+import { Box, Drawer, Pagination, PaginationItem,  Typography, useMediaQuery, useTheme} from '@mui/material';
 import Card from './component/Card';
 import type ICard from './component/interface/ICard';
 import oil1 from './assets/oil1.png';
@@ -11,9 +12,11 @@ import oil3 from './assets/oil3.png';
 import SideBar from './component/SideBer';
 import sideBarData from './component/sideBarData';
 import Filter from './assets/svg/filter.svg';
-
 import country from './assets/country.png';
+import Down from './assets/svg/downIco.svg';
+
 import React from 'react';
+import ReclamBlock from './component/Reclam';
 
 const cards : ICard[] = [
   {
@@ -63,9 +66,23 @@ function App() {
   const [selected, setSelected] = useState<SelectedFilters>({});
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState<number[]>([]);
+  const [totalPages, totalPagesSet] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+
+  const itemsPerPage = 18
+
+  const siblingCount = isMobile ? 0 : isTablet ? 1 : 4;
+  const paginationSize = isMobile ? "small" : isTablet ? "medium" : "large";
+
+  const handleChangePage = (_event: React.ChangeEvent<unknown>, newValue: number) => {
+    setCurrentPage(newValue);
+  };
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-      headerMenuSet(newValue);
+    headerMenuSet(newValue);
   };
 
   useEffect(() => {
@@ -77,6 +94,10 @@ function App() {
       }
       setValue([sideBarData.minPrice, sideBarData.maxPrice])
   }, []);
+  useEffect(()=>{
+      const page = Math.ceil(cardGet.length / itemsPerPage)
+      totalPagesSet(page != 0 ? page : 1)
+  }, [cardGet])
   const sideBarContent = (
     <SideBar 
       setSelected={setSelected}
@@ -86,6 +107,7 @@ function App() {
       setValue={setValue}
     />
   );
+
   return (
     <>
       <Header handleChange={handleChange} value={headerMenu}></Header>
@@ -106,21 +128,84 @@ function App() {
               }}>
                 {sideBarContent}
               </Box> 
-            <Box sx={{display:"flex",
-                      gap: "10px",
-                      rowGap:"30px",
-                      flexWrap:"wrap",
-                      flex: "1",
+            <Box sx={{
                       justifyContent: "flex-start",
-                      '@media (max-width:700px)': {
+                      '@media (max-width:719px)': {
                         justifyContent: 'center'
-                      }
-                    
+                      }      
             }}>
-              {cardGet.map((item, index)=> (
-                <Card key={index} {...item} ></Card>
-              ))}
+              <Box sx={{display: 'flex', alignItems:"center"}}>
+                {
+                  Array.from({ length: totalPages }, (_, i) => i).map((num) => {
+                    const start = num * itemsPerPage;
+                    const end = (start + itemsPerPage) > cardGet.length ? cardGet.length : (start + itemsPerPage);
+                    const pageItems = cardGet.slice(start, end)
+                    
+                    return (
+                      <TabPanel value={currentPage} index={num+1} key={num+1+"-panel"} >
+                        <Box sx={{
+                          display:"flex",
+                          gap: "10px",
+                          rowGap:"30px",
+                          flexWrap:"wrap",
+                          flex: "1",
+                          justifyContent: "space-around",
+                          '@media (max-width:719px)': {
+                          justifyContent: 'space-around'
+                        }      
+                        }}>
+                          {pageItems.map((card, index) => (
+                            <React.Fragment key={index}>
+                              <Card key={index} {...card} />
+                              {(index === 11 && currentPage === 1) && (
+                                <ReclamBlock/>
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </Box>
+                      </TabPanel>
+                      )  
+                    }
+                  )
+                }
+              
+              </Box>
+              <Box marginTop={5} display={'flex'} justifyContent="space-between">
+                <Pagination 
+                  size = {paginationSize}
+                  count={totalPages} 
+                  siblingCount={siblingCount} 
+                  onChange={handleChangePage}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      {...item}
+                      slots={{ 
+                        previous: () => <Typography>&lt; Back</Typography>, 
+                        next: () => <Typography>Next &gt;</Typography> 
+                      }}
+                      sx={{
+                        '& .MuiTouchRipple-root': { display: 'none' }, 
+                        '&.Mui-selected': {
+                          background: '#fff',
+                          color: '#A1ABFF',
+                          '&:hover': {
+                            background: 'none',
+                          },
+                        },
+                        '&:hover': {
+                            background: 'none',
+                          },
+                      }}
+                    />
+                  )}
+                />
+                <Typography sx={{display:"flex", gap: 1, alignItems:"center"}}>
+                  <Typography sx={{display:"flex", gap: 3}}>Result per page <Typography>{totalPages}</Typography></Typography>
+                  <img width={8} height={4.5} src={Down}/>
+                </Typography>
+              </Box>
             </Box>
+
           </Box>
         </TabPanel>
         <TabPanel value={headerMenu} index={1}>Cometions</TabPanel>
@@ -129,6 +214,7 @@ function App() {
         <TabPanel value={headerMenu} index={4}>News</TabPanel>
         
       </main>
+      <Footer handleChange={handleChange} value={headerMenu}></Footer>
     </>
   )
 }

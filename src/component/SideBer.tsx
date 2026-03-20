@@ -104,7 +104,7 @@ function SideBar({ sideData, selected, setSelected, value, setValue }: SideBarPr
                         </Typography>
                         {item.param.map((param, indexParam) => (
                             
-                            <InputLabel key={indexParam} sx={{ display: "flex", justifyContent: "space-between", mt: "8px", mb: "8px" }}>
+                            <InputLabel key={indexParam} sx={{color:"#141412", display: "flex", justifyContent: "space-between", mt: "8px", mb: "8px" }}>
                                 <Typography fontSize={14}>{param}</Typography>
                                 <Checkbox
                                     checked={selected[item.name]?.includes(param) || false}

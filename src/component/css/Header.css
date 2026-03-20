@@ -11,7 +11,7 @@ header{
     flex-direction: column;
     gap: 20px;
 }
-header input{
+header input, footer input{
     background: rgba(121, 121, 121, 0.2);;
     border: 1px solid #FFFF;
     border-radius: 125.84px;
@@ -20,7 +20,7 @@ header input{
     padding: 0 50px;
     color: white;
 }
-header input:focus {
+header input:focus, footer input:focus{
     outline: none;
 }
 header .serch{
@@ -37,7 +37,7 @@ header .search-button{
     align-items: center;
     z-index: 0;
 }
-header input::placeholder {
+header input::placeholder, footer input::placeholder {
     color: rgba(255, 255, 255, 0.6);
     font-size: 14px;
     align-items: center;
@@ -55,7 +55,7 @@ header .tab{
     min-width: 0 !important;
     padding: 0 !important;
 }
-header .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected{
+header .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected, footer .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected{
     color: #FFFF !important;
 }
 .ouiArrowHeader{
