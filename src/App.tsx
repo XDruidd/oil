@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Header from './component/Header'
 import TabPanel from './component/TabPanel';
-import { Box, Button, Drawer } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import Card from './component/Card';
 import type ICard from './component/interface/ICard';
 import oil1 from './assets/oil1.png';
 import oil2 from './assets/oil2.png';
 import oil3 from './assets/oil3.png';
-import type ISideBar from './component/interface/ISideBar';
 import SideBar from './component/SideBer';
 import sideBarData from './component/sideBarData';
 import Filter from './assets/svg/filter.svg';
 
 import country from './assets/country.png';
+import React from 'react';
 
 const cards : ICard[] = [
   {
@@ -62,6 +62,7 @@ function App() {
   const [cardGet, cardSet] = useState<ICard[]>([]);
   const [selected, setSelected] = useState<SelectedFilters>({});
   const [open, setOpen] = useState(false);
+  const [value, setValue] = React.useState<number[]>([]);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
       headerMenuSet(newValue);
@@ -74,12 +75,15 @@ function App() {
           cardSet((prev) => [...prev, ...cards]);          
         }
       }
+      setValue([sideBarData.minPrice, sideBarData.maxPrice])
   }, []);
   const sideBarContent = (
     <SideBar 
       setSelected={setSelected}
       selected={selected}
       sideData={sideBarData}
+      value={value}
+      setValue={setValue}
     />
   );
   return (

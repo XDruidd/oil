@@ -1,6 +1,6 @@
 import { Box, Checkbox, Divider, InputLabel, Slider, Typography } from "@mui/material";
 import Filter from "../assets/svg/filter.svg" 
-import React, { useState } from "react";
+import React from "react";
 import type ISideBar from "./interface/ISideBar";
 import CheckBox from "../assets/svg/checkBox.svg";
 import CheckBoxActive from "../assets/svg/checkBoxActive.svg";
@@ -11,12 +11,13 @@ interface SideBarProps {
     sideData: ISideBar;
     selected: SelectedFilters;
     setSelected: React.Dispatch<React.SetStateAction<SelectedFilters>>;
+    value: number[];
+    setValue: React.Dispatch<React.SetStateAction<number[]>>;
 }
-function SideBar({ sideData, selected, setSelected }: SideBarProps){
+function SideBar({ sideData, selected, setSelected, value, setValue }: SideBarProps){
 
-    const [value, setValue] = React.useState<number[]>([sideData.minPrice, sideData.maxPrice]);
 
-    const handleChange = (event: Event, newValue: number[], activeThumb: number) => {
+    const handleChange = (_event: Event, newValue: number[], activeThumb: number) => {
         if (activeThumb === 0) {
             setValue([Math.min(newValue[0], value[1] - sideData.minPrice), value[1]]);
         } else {
