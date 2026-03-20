@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Header from './component/Header'
 import TabPanel from './component/TabPanel';
-import { Box } from '@mui/material';
+import { Box, Button, Drawer } from '@mui/material';
 import Card from './component/Card';
 import type ICard from './component/interface/ICard';
 import oil1 from './assets/oil1.png';
 import oil2 from './assets/oil2.png';
 import oil3 from './assets/oil3.png';
+import type ISideBar from './component/interface/ISideBar';
+import SideBar from './component/SideBer';
+import sideBarData from './component/sideBarData';
+import Filter from './assets/svg/filter.svg';
 
 import country from './assets/country.png';
 
@@ -51,13 +55,18 @@ const cards : ICard[] = [
   src: oil3
   }
 ]
+type SelectedFilters = Record<string, string[]>;
 
 function App() {
   const [headerMenu, headerMenuSet] = useState(0)
   const [cardGet, cardSet] = useState<ICard[]>([]);
+  const [selected, setSelected] = useState<SelectedFilters>({});
+  const [open, setOpen] = useState(false);
+
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
       headerMenuSet(newValue);
   };
+
   useEffect(() => {
       if (cardGet.length < 18) {
         
@@ -66,17 +75,49 @@ function App() {
         }
       }
   }, []);
+  const sideBarContent = (
+    <SideBar 
+      setSelected={setSelected}
+      selected={selected}
+      sideData={sideBarData}
+    />
+  );
   return (
     <>
       <Header handleChange={handleChange} value={headerMenu}></Header>
       <main>
         <TabPanel value={headerMenu} index={0}>
-          <Box sx={{display:"flex", justifyContent: "end", gap: "10px", flexWrap:"wrap"}}>
-            {cardGet.map((item, index)=> (
-              <Card key={index} {...item}></Card>
-            ))}
+          <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+            <Box onClick={() => setOpen(true)}><img src={Filter}/></Box>
+            <Drawer open={open} onClose={() => setOpen(false)}>
+              <Box sx={{ width: 280, p: 2 }}>
+                {sideBarContent}
+              </Box>
+            </Drawer>
           </Box>
-          <Box>123</Box>
+          <Box sx={{display: "flex", justifyContent:"space-between"}}>
+              <Box sx={{ 
+                display: { xs: 'none', md: 'block' },
+                flex: "0 0 200px" 
+              }}>
+                {sideBarContent}
+              </Box> 
+            <Box sx={{display:"flex",
+                      gap: "10px",
+                      rowGap:"30px",
+                      flexWrap:"wrap",
+                      flex: "1",
+                      justifyContent: "flex-start",
+                      '@media (max-width:700px)': {
+                        justifyContent: 'center'
+                      }
+                    
+            }}>
+              {cardGet.map((item, index)=> (
+                <Card key={index} {...item} ></Card>
+              ))}
+            </Box>
+          </Box>
         </TabPanel>
         <TabPanel value={headerMenu} index={1}>Cometions</TabPanel>
         <TabPanel value={headerMenu} index={2}>Dishes</TabPanel>
