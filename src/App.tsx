@@ -88,7 +88,7 @@ function App() {
   useEffect(() => {
       if (cardGet.length < 18) {
         
-        for (let index = 0; index < 6; index++) {
+        for (let index = 0; index < 10; index++) {
           cardSet((prev) => [...prev, ...cards]);          
         }
       }
@@ -113,13 +113,18 @@ function App() {
       <Header handleChange={handleChange} value={headerMenu}></Header>
       <main>
         <TabPanel value={headerMenu} index={0}>
-          <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-            <Box onClick={() => setOpen(true)}><img src={Filter}/></Box>
-            <Drawer open={open} onClose={() => setOpen(false)}>
-              <Box sx={{ width: 280, p: 2 }}>
-                {sideBarContent}
-              </Box>
-            </Drawer>
+          <Box sx={{display: "flex", justifyContent: "space-between",padding: "20px"}}>
+            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+              <Box onClick={() => setOpen(true)}><img src={Filter}/></Box>
+              <Drawer open={open} onClose={() => setOpen(false)}>
+                <Box sx={{ width: 280, p: 2 }}>
+                  {sideBarContent}
+                </Box>
+              </Drawer>
+            </Box>
+            <Box>
+              123
+            </Box>
           </Box>
           <Box sx={{display: "flex", justifyContent:"space-between"}}>
               <Box sx={{ 
