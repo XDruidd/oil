@@ -118,7 +118,7 @@ function App() {
       <Header handleChange={handleChange} value={headerMenu}></Header>
       <main>
         <TabPanel value={headerMenu} index={0}>
-          <Box sx={{display: "flex",padding: "0 0", justifyContent:"space-between"}}>
+          <Box sx={{display: "flex",padding: "0 0", justifyContent:"space-between", margin:"0 0 20px 0"}}>
             <Box>
               <Box sx={{ display: { xs: 'block', md: 'none' } }}>
                 <Box onClick={() => setOpen(true)}><img src={Filter}/></Box>
