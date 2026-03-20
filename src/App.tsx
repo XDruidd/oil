@@ -3,7 +3,7 @@ import './App.css'
 import Footer from './component/Footer'
 import Header from './component/Header'
 import TabPanel from './component/TabPanel';
-import { Box, Drawer, Pagination, PaginationItem,  Typography, useMediaQuery, useTheme} from '@mui/material';
+import { Box, Drawer, FormControl, MenuItem, Pagination, PaginationItem,  Select,  Typography, useMediaQuery, useTheme, type SelectChangeEvent} from '@mui/material';
 import Card from './component/Card';
 import type ICard from './component/interface/ICard';
 import oil1 from './assets/oil1.png';
@@ -17,6 +17,7 @@ import Down from './assets/svg/downIco.svg';
 
 import React from 'react';
 import ReclamBlock from './component/Reclam';
+import MegaCard from './component/MegaCard';
 
 const cards : ICard[] = [
   {
@@ -68,6 +69,7 @@ function App() {
   const [value, setValue] = React.useState<number[]>([]);
   const [totalPages, totalPagesSet] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sorting, setSorting] = React.useState('');
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -85,6 +87,9 @@ function App() {
     headerMenuSet(newValue);
   };
 
+  const handleChangeSorting = (event: SelectChangeEvent) => {
+    setSorting(event.target.value as string);
+  };
   useEffect(() => {
       if (cardGet.length < 18) {
         
@@ -113,17 +118,58 @@ function App() {
       <Header handleChange={handleChange} value={headerMenu}></Header>
       <main>
         <TabPanel value={headerMenu} index={0}>
-          <Box sx={{display: "flex", justifyContent: "space-between",padding: "20px"}}>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-              <Box onClick={() => setOpen(true)}><img src={Filter}/></Box>
-              <Drawer open={open} onClose={() => setOpen(false)}>
-                <Box sx={{ width: 280, p: 2 }}>
-                  {sideBarContent}
-                </Box>
-              </Drawer>
-            </Box>
+          <Box sx={{display: "flex",padding: "0 0", justifyContent:"space-between"}}>
             <Box>
-              123
+              <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                <Box onClick={() => setOpen(true)}><img src={Filter}/></Box>
+                <Drawer open={open} onClose={() => setOpen(false)}>
+                  <Box sx={{ width: 280, p: 2 }}>
+                    {sideBarContent}
+                  </Box>
+                </Drawer>
+              </Box>
+            </Box>
+            <Box sx={{display:'flex', justifyContent:"end", alignItems:"center", gap: 1.5}}>
+              <Typography>
+                sorting:
+              </Typography>
+                <FormControl sx={{ 
+                  width: "120px",   
+                  minWidth: "120px" 
+                }}>          
+                  <Select
+                  sx={{
+                    height: "25px",
+                    width:"100px",
+                    borderRadius: "40px", 
+                    
+                    '& .MuiSelect-select': {
+                      padding: "5px 14px", 
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center"
+                    },
+                    
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      border: "1px solid #14141233", 
+                      borderWidth: "1px"
+                    },
+                    
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      border: "1px solid #14141233", 
+                    }
+                  }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={sorting}
+                  label=""
+                  onChange={handleChangeSorting}
+                >
+                  <MenuItem value={0}></MenuItem>
+                  <MenuItem value={1}>New</MenuItem>
+                  <MenuItem value={2}>Old</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
           </Box>
           <Box sx={{display: "flex", justifyContent:"space-between"}}>
@@ -139,7 +185,17 @@ function App() {
                         justifyContent: 'center'
                       }      
             }}>
+          <Box sx={{
+            display: "flex",
+            flexWrap:"wrap",
+            gap: "10px",
+          }}>
+            <MegaCard></MegaCard>
+            <MegaCard></MegaCard>
+          </Box>
+
               <Box sx={{display: 'flex', alignItems:"center"}}>
+                
                 {
                   Array.from({ length: totalPages }, (_, i) => i).map((num) => {
                     const start = num * itemsPerPage;
