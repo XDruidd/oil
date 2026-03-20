@@ -78,9 +78,15 @@ function Header({ value, handleChange }: HeaderProps){
                             
                             <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
                             <List sx={{ width: 250 }} >
-                                {['oil', 'Cosmetics', 'Dishes', 'Competition', 'News'].map((text) => (
+                                {['oil', 'Cosmetics', 'Dishes', 'Competition', 'News'].map((text, index) => (
                                     <ListItem key={text} disablePadding>
-                                        <ListItemButton onClick={() => setOpen(false)}> 
+                                        <ListItemButton 
+                                                selected={value === index} 
+                                                onClick={(event) => {
+                                                    handleChange(event as React.SyntheticEvent, index); 
+                                                    setOpen(false);
+                                                }}
+                                        > 
                                             <ListItemText primary={text} />
                                         </ListItemButton>
                                     </ListItem>
